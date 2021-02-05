@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.mds.prj.dao.IMemberDao">
+
+	<select id="list" resultType="com.mds.prj.dto.MemberDetails">
+		select * from nmember
+	</select>
+	
+	<select id="findById"  parameterType="String" resultType="com.mds.prj.dto.MemberDetails">
+		SELECT * FROM nmember WHERE memId = #{memId}
+	</select>
+	
+	<select id="findByName"  parameterType="String" resultType="com.mds.prj.dto.MemberDetails">
+		SELECT * FROM nmember WHERE memName = #{memName}
+	</select>
+	
+	<insert id="joinMember" parameterType="com.mds.prj.dto.MemberDetails">
+	INSERT INTO nmember (memId,memPw,authority,memName)
+	VALUES (#{memberDt.memId},#{memberDt.memPw},#{memberDt.AUTHORITY},#{memberDt.memName})
+	</insert>
+</mapper>

@@ -1,0 +1,113 @@
+@charset "EUC-KR";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap');
+
+body{
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+input:focus {outline:none;}
+
+.container {
+	box-sizing: border-box;
+	max-width: 350px;
+	border: 1px solid;
+	border-color: #D5D5D5;
+	margin: 100px auto;
+	border-radius: 2px;
+	box-shadow: 5px 10px 10px rgba(0,0,0,0.03);
+}
+
+.title{
+	padding : 5px 5px 5px 15px;
+	font-weight: 800;
+	border-bottom: 1px solid #D5D5D5;
+	text-align:center;
+}
+
+.title img{
+	width:150px;
+}
+
+.title h3{
+	margin : 10px 5px 10px 5px;
+}
+
+.inputcontainer{
+	box-sizing: border-box;
+	width: 100%;
+	margin-top:10px;
+	padding: 0px 10px 0px 10px;
+	-webkit-box-align:center;
+}
+
+.inputbox {
+	box-sizing: border-box;
+	border-bottom: 1px solid #D5D5D5;
+	white-space:nowrap;
+}
+
+.inputbox input{
+	box-sizing : border-box;
+	width: 100%;
+	height:30px;
+	border: none;
+	font-size: 14px;
+}
+
+.highlight {
+	box-sizing: border-box;
+	margin:0px auto;
+  	width:25%;
+  	height:0.1rem;
+  	border:none;
+}
+
+input:focus ~ .highlight {
+	background-color:#6799FF;
+	transform:	scaleX(4);
+	transition:0.5s;
+}
+
+.inputbox img{
+	width: 100%;
+}
+
+.inputcontainer button{
+	border: 1px solid #ccc;
+	width: 50%;
+	margin:15px auto;
+	padding:5px;
+	color:white;
+	display: flex;
+  	justify-content: center;
+  	outline:0;
+  	border-radius:4px;
+  	background:#EAEAEA;
+  	font-weight:700;
+
+}
+
+
+.checkIcon{
+	display:inline;
+	position: relative;
+  	right: 25px;
+}
+
+.fa-check-circle{
+	color : #6799FF;
+	
+}
+.fa-redo-alt{
+	cursor: pointer;
+	color : #6799FF;
+}
+
+
+.duplicate{
+	font-size:10px;
+}
+.caperror{
+	font-size:10px;
+	color:red;
+}

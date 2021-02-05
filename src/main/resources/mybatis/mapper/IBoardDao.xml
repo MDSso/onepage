@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.mds.prj.dao.IBoardDao">
+
+	<select  id="boardList" parameterType="hashmap" resultType="com.mds.prj.dto.BoardListDto">
+		<![CDATA[ SELECT * FROM (SELECT A.*, ROWNUM AS RNUM, COUNT(*) OVER() AS TOTCNT FROM (SELECT * FROM board where category = #{category} ORDER BY idx desc ) A ) 
+		WHERE RNUM > #{paging.start} AND RNUM <= #{paging.end} ]]>
+	</select>
+	
+	<select  id="nextBoard" parameterType="hashmap" resultType="com.mds.prj.dto.BoardListDto">
+		<![CDATA[ SELECT * FROM (SELECT A.*, ROWNUM AS RNUM, COUNT(*) OVER() AS TOTCNT FROM (SELECT * FROM board where idx <= #{idxSet} AND category = #{category} ORDER BY idx desc ) A ) 
+		WHERE RNUM > #{paging.start} AND RNUM <= #{paging.end} ]]>
+	</select>
+	
+	<select  id="myBoard" parameterType="hashmap" resultType="com.mds.prj.dto.BoardListDto">
+		<![CDATA[ SELECT * FROM (SELECT A.*, ROWNUM AS RNUM, COUNT(*) OVER() AS TOTCNT FROM (SELECT * FROM board where memId = #{memId} ORDER BY idx desc ) A ) 
+		WHERE RNUM > #{paging.start} AND RNUM <= #{paging.end} ]]>
+	</select>
+	
+	<select  id="findByIdx" parameterType="string" resultType="com.mds.prj.dto.BoardListDto">
+		select memId,title from board where idx = #{idx}
+	</select>
+	
+	<insert id="insertBoard"  parameterType="com.mds.prj.dto.BoardListDto" >
+		INSERT INTO board (idx, memname, title, allcontent, ctime, memid,category)
+		VALUES (BOARD_IDX.nextval, #{boardListDto.memName}, #{boardListDto.title}, #{boardListDto.allContent} , SYSDATE, #{boardListDto.memId}, #{boardListDto.category})
+	</insert>
+	
+	<insert id="insertBoardImg"  parameterType="com.mds.prj.dto.BoardImgDto" >
+		INSERT INTO boardimg (id, contenttype, originalname, savename, filepath, filesize, cdate)
+		VALUES (#{ImgDto.id}, #{ImgDto.contentType}, #{ImgDto.originalName}, #{ImgDto.saveName}, #{ImgDto.filePath}, #{ImgDto.fileSize}, SYSDATE)
+	</insert>
+	
+	<insert id="insertComment"  parameterType="com.mds.prj.dto.BoardCommentDto" >
+		INSERT INTO comments (boardidx, commentidx, ccontents, memname, memid, ctime)
+		VALUES (#{commentDto.boardIdx}, COMMENT_IDX.nextval, #{commentDto.cContents}, #{commentDto.memName} , #{commentDto.memId}, SYSDATE)
+	</insert>
+	
+	<select id="findByFileId" resultType="com.mds.prj.dto.BoardImgDto">
+		select * from boardimg where id = #{id}
+	</select>
+	
+	<select id="findComments" resultType="com.mds.prj.dto.BoardCommentDto">
+		<![CDATA[ SELECT * FROM (SELECT A.*, ROWNUM AS RNUM, COUNT(*) OVER() AS TOTCNT FROM (SELECT * FROM comments where boardidx = #{boardIdx} ORDER BY commentidx desc ) A ) 
+		WHERE RNUM > #{paging.start} AND RNUM <= #{paging.end} ]]>
+	</select>
+	
+	<select id="nextComments" resultType="com.mds.prj.dto.BoardCommentDto">
+		<![CDATA[ SELECT * FROM (SELECT A.*, ROWNUM AS RNUM, COUNT(*) OVER() AS TOTCNT FROM (SELECT * FROM comments where boardidx = #{boardIdx} AND commentidx <= #{commentIdx} ORDER BY commentidx desc ) A ) 
+		WHERE RNUM > #{paging.start} AND RNUM <= #{paging.end} ]]>
+	</select>
+	
+	<!-- 추천 -->
+	<select id="checkRecom" parameterType="hashmap" resultType="_int">
+		select count(*) from recommend where boardIdx = #{idx} AND memId = #{member.memId} AND state = 'recommend'
+	</select>
+	
+	<insert id="insertRecom"  parameterType="hashmap" >
+		INSERT INTO recommend (memid, boardidx, ctime, state)
+		VALUES (#{member.memId}, #{idx}, SYSDATE, 'recommend')
+	</insert>
+	
+	<update id="updateRecom"  parameterType="string" >
+		UPDATE board SET recomrate = recomrate + 1 WHERE idx = #{idx}
+	</update>
+	
+	<select id="getRecom" parameterType="string" resultType="string">
+		select recomrate from board where idx = #{idx} 
+	</select>
+	
+	<!-- 비추천 -->
+	<select id="checkNotRecom" parameterType="hashmap" resultType="_int">
+		select count(*) from recommend where boardIdx = #{idx} AND memId = #{member.memId} AND state = 'notrecommend'
+	</select>
+	
+	<insert id="insertNotRecom"  parameterType="hashmap" >
+		INSERT INTO recommend (memid, boardidx, ctime, state)
+		VALUES (#{member.memId}, #{idx}, SYSDATE, 'notrecommend')
+	</insert>
+	
+	<update id="updateNotRecom"  parameterType="string" >
+		UPDATE board SET notrecomrate = notrecomrate + 1 WHERE idx = #{idx}
+	</update>
+	
+	<select id="getNotRecom" parameterType="string" resultType="string">
+		select notrecomrate from board where idx = #{idx} 
+	</select>
+	
+	<delete id="deleteComment" parameterType="string">
+		delete from comments where memid = #{memId} AND commentidx = #{commentIdx}
+	</delete>
+	
+	<delete id="deleteBoard" parameterType="string">
+		delete from board where memid = #{memId} AND idx = #{boardIdx}
+	</delete>
+	
+	<select id="updateBoard" parameterType="string" resultType="com.mds.prj.dto.BoardListDto">
+		select  title,allcontent from board where idx = #{boardIdx} AND memid = #{memId}
+	</select>
+	
+	<update id="updateBoardOK"  parameterType="hashmap" >
+		UPDATE board SET title = #{board.title}, allcontent= #{board.allContent}, lastupdate = SYSDATE WHERE idx = #{board.idx} AND memId = #{memId}
+	</update>
+	
+
+</mapper>

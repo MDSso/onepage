@@ -1,0 +1,63 @@
+plugins {
+	id 'org.springframework.boot' version '2.4.1'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'java'
+	id 'war'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	//jdbc
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	compile fileTree(dir: '/src/main/webapp/WEB_INF/lib', include: ['*.jar'])
+	//jsp
+	implementation 'javax.servlet:jstl'
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4'
+	//lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	
+	//json
+	compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
+	
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	//bootstrap
+	compile 'org.webjars:bootstrap:5.0.0-beta1'
+	//jquery
+	compile 'org.webjars:jquery:3.5.1'
+	//logger
+	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+	
+	//gson
+	 implementation 'com.google.code.gson:gson:2.8.6'
+	 
+	 //네이버 루시 필터
+	 compile 'com.navercorp.lucy:lucy-xss-servlet:2.0.0'
+	 //웹소켓
+	 implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+
+}
+
+test {
+	useJUnitPlatform()
+}

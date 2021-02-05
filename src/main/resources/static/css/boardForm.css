@@ -1,0 +1,72 @@
+@charset "EUC-KR";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap');
+
+
+body{
+	font-family: 'Noto Sans KR', sans-serif;
+	margin:0px;
+	padding:0px;
+}
+
+.nav{
+	padding: 10px;
+	border-bottom: 2px solid #ccc;
+	display: flex;
+	justify-content: space-between;
+}
+
+.nav-list{
+	font-size: 20px;
+	display: flex;
+}
+
+.nav-list > div{
+	cursor:pointer;
+	border-radius:5px;
+	padding: 5px 10px;
+	margin: 0px 10px;
+}
+
+
+.nav-list > div:hover{
+	background: #EAEAEA;
+	transition:0.5s;
+}
+
+.side-menu{
+	width : 300px;
+	border-right: 1px solid #ccc;
+	background: white;
+	height: 100%;
+	position: fixed;
+	top:0;
+	left: -300px;
+}
+
+.side-item{
+	padding: 5px 10px;
+	text-align:center;
+	font-weight: 600;
+	font-size: 1em;
+	border-bottom: 1px solid #ccc;
+}
+
+.side-item:hover{
+	cursor:pointer;
+	background: #EAEAEA;
+	transition: 0.3s;
+}
+
+.side-close{
+	color: #ccc;
+	cursor:pointer;
+	padding: 5px 10px;
+	position: absolute;
+	top: -1px;
+	right: 10px;
+}
+
+.side-close:hover {
+	color: black;
+	transition:0.5s;
+}
